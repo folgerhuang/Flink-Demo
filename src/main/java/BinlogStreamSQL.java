@@ -13,6 +13,7 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
+import org.apache.flink.table.api.StreamQueryConfig;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
@@ -57,7 +58,8 @@ public class BinlogStreamSQL {
          * maxTime：不管是否该在变动，该key在state中最多保存maxTime的时间
          * 以上是个人理解，官网对该方法的两个参数有模糊的解释，但是没有进行详细的解释，如有不对麻烦指点
          */
-        tEnv.queryConfig().withIdleStateRetentionTime(Time.days(10), Time.days(30));
+        StreamQueryConfig queryConfig = tEnv.queryConfig();
+        queryConfig.withIdleStateRetentionTime(Time.days(10), Time.days(30));
 
         Properties properties = new Properties();
         properties.setProperty("bootstrap.servers", "ido001.gzcb.com:9092,ido002.gzcb.com:9092,ido003.gzcb.com:9092");
@@ -123,7 +125,7 @@ public class BinlogStreamSQL {
                 "from app_case a left join cm_customer b on a.case_id = b.case_id " +
                 "where a.close_time not in('')");
 
-        tEnv.toRetractStream(result, Row.class).filter(new FilterFunction<Tuple2<Boolean, Row>>() {
+        tEnv.toRetractStream(result, Row.class, queryConfig).filter(new FilterFunction<Tuple2<Boolean, Row>>() {
             @Override
             public boolean filter(Tuple2<Boolean, Row> booleanRowTuple2) throws Exception {
                 return booleanRowTuple2.f0;
