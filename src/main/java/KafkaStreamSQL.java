@@ -22,7 +22,7 @@ public class KafkaStreamSQL {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tEnv = TableEnvironment.getTableEnvironment(env);
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "ido001.gzcb.com:9092,ido002.gzcb.com:9092,ido003.gzcb.com:9092");
+        properties.setProperty("bootstrap.servers", "ido001.lwj.com:9092,ido002.lwj.com:9092,ido003.lwj.com:9092");
         properties.setProperty("group.id", "flink");
 
 
