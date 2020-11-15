@@ -62,7 +62,7 @@ public class BinlogStreamSQL {
         queryConfig.withIdleStateRetentionTime(Time.days(10), Time.days(30));
 
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "ido001.gzcb.com:9092,ido002.gzcb.com:9092,ido003.gzcb.com:9092");
+        properties.setProperty("bootstrap.servers", "ido001.lwj.com:9092,ido002.lwj.com:9092,ido003.lwj.com:9092");
         properties.setProperty("group.id", "flink");
         String topic = "bps-16-r3p3";
 
